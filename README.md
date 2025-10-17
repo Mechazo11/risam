@@ -59,14 +59,31 @@ First, one must setup dependencies. Unfortunately, there is a sensitivity to ver
 
 * GTSAM 
     * Download [GTSAM version 4.2a8](https://github.com/borglab/gtsam/releases/tag/4.2a8)
-    * Setup compile time options [required by KimeraRPGO](https://github.com/MIT-SPARK/Kimera-RPGO)
-    * Build and optionally install GTSAM (Scripts assume GTSAM python is installed in the active python environment)
+    * Set it up with cmake parameters exactly
+    ```bash
+    cd ~/Downloads/
+    # Build GTSAM 4.2a8 to custom location
+    git clone https://github.com/borglab/gtsam.git
+    cd gtsam
+    git checkout 9902ccc0a4f62123e91f057babe3612a95c15c20
+    mkdir build && cd build
+    #cmake ..
+    cmake .. -DGTSAM_USE_SYSTEM_EIGEN=ON -DGTSAM_POSE3_EXPMAP=ON -DGTSAM_ROT3_EXPMAP=ON -DGTSAM_WITH_TBB=OFF
+    make -j$(nproc)
+    sudo make install
+    ```
+
+
 * Clone riSAM and Submodules
     * [HTTPS]: `git clone --recurse-submodules https://github.com/rpl-cmu/risam.git`
     * [SSH]: `git clone --recurse-submodules git@github.com:rpl-cmu/risam.git`
+
 * Link GTSAM
     * If you `install` GTSAM this should be automatic
     * If you are working with a local build of GTSAM set `GTSAM_DIR` and `GTSAM_INCLUDE_DIR` to the appropriate directories.
+
+
+
 * Build riSAM and prior-works
     * `cd risam`
     * `mkdir build`
